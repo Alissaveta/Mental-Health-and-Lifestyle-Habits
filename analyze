@@ -1,0 +1,22 @@
+import pandas as pd
+import seaborn as sns
+import matplotlib.pyplot as plt
+
+# Loading data
+df = pd.read_csv("Mental_Health_Lifestyle_Dataset_CLEANED.csv")
+
+# Age grouping and calculation of average sleep and stress values
+age_grouped = df.groupby("Age")[["Sleep Hours", "Stress Level"]].mean().dropna()
+
+# Calculating the Pearson Correlation Coefficient
+correlation = age_grouped["Sleep Hours"].corr(age_grouped["Stress Level"])
+
+# Plotting a graph
+plt.figure(figsize=(10, 6))
+sns.regplot(x="Sleep Hours", y="Stress Level", data=age_grouped)
+plt.title(f"Correlation between Average Sleep Hours and Stress Level by Age\nCorrelation = {correlation:.2f}")
+plt.xlabel("Average Sleep Hours")
+plt.ylabel("Average Stress Level")
+plt.grid(True)
+plt.tight_layout()
+plt.show()
